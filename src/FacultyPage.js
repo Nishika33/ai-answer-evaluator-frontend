@@ -101,8 +101,8 @@ Logout
 <option>Artificial Intelligence</option>
 <option>Machine Learning</option>
 <option>Data Science</option>
-<option>Computer Networks</option>
-<option>Operating Systems</option>
+<option>Python</option>
+<option>Information Retrieval System</option>
 </select>
 
 <br/><br/>
@@ -133,12 +133,12 @@ onChange={e => setMaxScore(e.target.value)}
 
 <hr/>
 
-<h3>Search Results (AI Prompt)</h3>
+<h3>Search Results</h3>
 
 <div style={{ display:"flex", alignItems:"center", gap:"10px" }}>
 
 <input
-style={{ width:"700px", padding:"10px" }}
+style={{ width:"1000px", padding:"15px" }}
 placeholder="Example: show roll 21 result"
 onChange={e => setPrompt(e.target.value)}
 />
