@@ -58,7 +58,7 @@ return(
 
 <div className="header">
 
-<h2>Student Dashboard</h2>
+<h2 className="dashboard-title">Student Dashboard</h2>
 
 <button className="logout" onClick={logout}>
 Logout
@@ -107,7 +107,7 @@ placeholder="Write Your Answer"
 onChange={e=>setStudentAnswer(e.target.value)}
 />
 
-<button onClick={submitAnswer}>
+<button className="submit-btn" onClick={submitAnswer}>
 Submit Answer
 </button>
 

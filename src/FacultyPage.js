@@ -64,7 +64,7 @@ return(
 
 <div className="header">
 
-<h2>Faculty Dashboard</h2>
+<h2 className="dashboard-title">Faculty Dashboard</h2>
 
 <button className="logout" onClick={logout}>
 Logout
@@ -74,7 +74,7 @@ Logout
 
 <div className="section">
 
-<h3>Add Question</h3>
+<h3 className="small-btn">Add Question</h3>
 
 <select onChange={e=>setSubject(e.target.value)}>
 
@@ -112,19 +112,21 @@ Save Question
 <div className="section">
 
 <h3>Search Results</h3>
+<div className="search-container">
 
 <input
 placeholder="Example: show roll 21 result"
 onChange={e=>setPrompt(e.target.value)}
 />
 
-<button onClick={searchResults}>
+<button className="search-btn" onClick={searchResults}>
 Search
 </button>
 
-<button onClick={viewAllResults}>
+<button className="small-btn" onClick={viewAllResults}>
 View All Results
 </button>
+</div>
 
 </div>
 

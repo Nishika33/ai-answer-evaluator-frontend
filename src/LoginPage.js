@@ -46,12 +46,14 @@ return(
 placeholder="Username"
 onChange={e=>setUser({...user,username:e.target.value})}
 />
-
+<div className="password-container">
 <input
-type="password"
+type="show password" ? "text" : "password"
 placeholder="Password"
 onChange={e=>setUser({...user,password:e.target.value})}
 />
+<span className="eye-icon" onclick={()=>setShowPassword(!showPassword)}>👁</span>
+</div>
 
 <button onClick={login}>
 Login
