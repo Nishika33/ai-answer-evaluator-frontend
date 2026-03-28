@@ -9,7 +9,7 @@ import StudentPage from "./StudentPage";
 
 export default function App() {
 
-  const [role, setRole] = useState(null);
+  //const [role, setRole] = useState(null);
 
   return (
     <Router>
