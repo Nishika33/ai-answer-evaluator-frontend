@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./styles.css";
 
 export default function StudentPage(){
 
@@ -15,96 +16,59 @@ const navigate = useNavigate();
 const username = localStorage.getItem("username");
 const rollNumber = localStorage.getItem("rollNumber");
 
-
 const logout = () => {
-localStorage.removeItem("username");
-localStorage.removeItem("role");
-localStorage.removeItem("rollNumber");
-navigate("/login");
-};
 
+localStorage.clear();
+navigate("/login");
+
+};
 
 const loadQuestions = async (sub) => {
 
 setSubject(sub);
 
-try{
-
-const res = await axios.get(`http://localhost:8080/api/questions/${sub}`);
+const res = await axios.get(`https://ai-answer-evaluator-backend.onrender.com/api/questions/${sub}`);
 
 setQuestions(res.data);
 
-}catch(error){
-console.log(error);
-}
-
 };
-
 
 const submitAnswer = async () => {
 
-try{
-
 const res = await axios.post(
-`http://localhost:8080/api/submit/${questionId}`,
+
+`https://ai-answer-evaluator-backend.onrender.com/api/submit/${questionId}`,
+
 {
 studentUsername: username,
 rollNumber: rollNumber,
 studentAnswer: studentAnswer,
 subject: subject
 }
+
 );
 
 setResult(res.data);
 
-}catch(error){
-
-alert("Error submitting answer");
-console.log(error);
-
-}
-
 };
-
 
 return(
 
-<div style={{ padding:"30px" }}>
+<div className="dashboard">
 
-<div style={{
-position:"relative",
-textAlign:"center"
-}}>
+<div className="header">
 
 <h2>Student Dashboard</h2>
 
-<button
-onClick={logout}
-style={{
-position:"absolute",
-right:"0",
-top:"0",
-backgroundColor:"red",
-color:"white",
-border:"none",
-padding:"5px 10px",
-cursor:"pointer",
-borderRadius:"5px",
-fontWeight:"bold",
-width:"80px"
-}}
->
+<button className="logout" onClick={logout}>
 Logout
 </button>
 
 </div>
 
-
 <h4>Welcome {username}</h4>
 
-<br/>
-
-{/* SUBJECT DROPDOWN */}
+<div className="section">
 
 <select onChange={e=>loadQuestions(e.target.value)}>
 
@@ -117,53 +81,44 @@ Logout
 
 </select>
 
-<br/><br/>
+</div>
 
-
-{/* QUESTION DROPDOWN */}
-
-{questions.length > 0 && (
+{questions.length>0 &&(
 
 <select onChange={e=>setQuestionId(e.target.value)}>
 
 <option>Select Question</option>
 
-{questions.map((q)=>(
+{questions.map(q=>(
+
 <option key={q.id} value={q.id}>
 {q.questionText}
 </option>
+
 ))}
 
 </select>
 
 )}
 
-<br/><br/>
-
 <textarea
-placeholder="Write Your Answer"
 rows="6"
-cols="50"
+placeholder="Write Your Answer"
 onChange={e=>setStudentAnswer(e.target.value)}
 />
 
-<br/><br/>
-
-
-<button onClick={submitAnswer}>Submit Answer</button>
-
-
-<hr/>
-
+<button onClick={submitAnswer}>
+Submit Answer
+</button>
 
 {result && (
 
-<div>
+<div className="section">
 
 <h3>Evaluation Result</h3>
 
 <p><b>Marks:</b> {result.predictedMarks}</p>
-<p><b>Similarity Score:</b> {result.similarityScore}</p>
+<p><b>Similarity:</b> {result.similarityScore}</p>
 <p><b>Feedback:</b> {result.feedback}</p>
 
 </div>

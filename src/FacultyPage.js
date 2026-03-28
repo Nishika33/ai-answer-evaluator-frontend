@@ -1,49 +1,47 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./styles.css";
 
-export default function FacultyPage() {
+export default function FacultyPage(){
 
 const navigate = useNavigate();
 
-const [subject, setSubject] = useState("");
-const [question, setQuestion] = useState("");
-const [modelAnswer, setModelAnswer] = useState("");
-const [maxScore, setMaxScore] = useState(10);
+const [subject,setSubject] = useState("");
+const [question,setQuestion] = useState("");
+const [modelAnswer,setModelAnswer] = useState("");
+const [maxScore,setMaxScore] = useState(10);
 
-const [prompt, setPrompt] = useState("");
-const [results, setResults] = useState([]);
-const [showTable, setShowTable] = useState(false);
+const [prompt,setPrompt] = useState("");
+const [results,setResults] = useState([]);
+const [showTable,setShowTable] = useState(false);
 
 const logout = () => {
-localStorage.removeItem("username");
-localStorage.removeItem("role");
+
+localStorage.clear();
 navigate("/login");
+
 };
 
 const addQuestion = async () => {
 
-await axios.post("http://localhost:8080/api/question", {
-subject: subject,
-questionText: question,
-modelAnswer: modelAnswer,
-maxScore: maxScore
+await axios.post("https://ai-answer-evaluator-backend.onrender.com/api/question",{
+subject,
+questionText:question,
+modelAnswer,
+maxScore
 });
 
-alert("Question Added Successfully");
-
-setSubject("");
-setQuestion("");
-setModelAnswer("");
+alert("Question Added");
 
 };
 
 const searchResults = async () => {
 
 const res = await axios.post(
-"http://localhost:8080/api/results/prompt",
+"https://ai-answer-evaluator-backend.onrender.com/api/results/prompt",
 prompt,
-{ headers: { "Content-Type": "text/plain" } }
+{headers:{"Content-Type":"text/plain"}}
 );
 
 setResults(res.data);
@@ -53,7 +51,7 @@ setShowTable(true);
 
 const viewAllResults = async () => {
 
-const res = await axios.get("http://localhost:8080/api/results");
+const res = await axios.get("https://ai-answer-evaluator-backend.onrender.com/api/results");
 
 setResults(res.data);
 setShowTable(true);
@@ -62,107 +60,86 @@ setShowTable(true);
 
 return(
 
-<div style={{ padding:"30px" }}>
+<div className="dashboard">
 
-<div style={{
-position:"relative",
-textAlign:"center"
-}}>
+<div className="header">
 
 <h2>Faculty Dashboard</h2>
 
-<button
-onClick={logout}
-style={{
-position:"absolute",
-right:"0",
-top:"0",
-backgroundColor:"red",
-color:"white",
-border:"none",
-padding:"5px 10px",
-cursor:"pointer",
-borderRadius:"5px",
-fontWeight:"bold",
-width:"80px"
-}}
->
+<button className="logout" onClick={logout}>
 Logout
 </button>
 
 </div>
 
-<hr/>
+<div className="section">
 
 <h3>Add Question</h3>
 
-<select onChange={e => setSubject(e.target.value)}>
+<select onChange={e=>setSubject(e.target.value)}>
+
 <option>Select Subject</option>
 <option>Artificial Intelligence</option>
 <option>Machine Learning</option>
 <option>Data Science</option>
 <option>Python</option>
 <option>Information Retrieval System</option>
-</select>
 
-<br/><br/>
+</select>
 
 <textarea
 placeholder="Enter Question"
-onChange={e => setQuestion(e.target.value)}
+onChange={e=>setQuestion(e.target.value)}
 />
-
-<br/><br/>
 
 <textarea
 placeholder="Enter Model Answer"
-onChange={e => setModelAnswer(e.target.value)}
+onChange={e=>setModelAnswer(e.target.value)}
 />
-
-<br/><br/>
 
 <input
 type="number"
 value={maxScore}
-onChange={e => setMaxScore(e.target.value)}
+onChange={e=>setMaxScore(e.target.value)}
 />
 
-<br/><br/>
-
-<button onClick={addQuestion}>Save Question</button>
-
-<hr/>
-
-<h3>Search Results</h3>
-
-<div style={{ display:"flex", alignItems:"center", gap:"10px" }}>
-
-<input
-style={{ width:"1000px", padding:"15px" }}
-placeholder="Example: show roll 21 result"
-onChange={e => setPrompt(e.target.value)}
-/>
-
-<button onClick={searchResults}>Search</button>
-
-<button onClick={viewAllResults}>View All Results</button>
+<button onClick={addQuestion}>
+Save Question
+</button>
 
 </div>
 
-<hr/>
+<div className="section">
+
+<h3>Search Results</h3>
+
+<input
+placeholder="Example: show roll 21 result"
+onChange={e=>setPrompt(e.target.value)}
+/>
+
+<button onClick={searchResults}>
+Search
+</button>
+
+<button onClick={viewAllResults}>
+View All Results
+</button>
+
+</div>
 
 {showTable && (
 
-<table border="1" width="100%" style={{ marginTop:"20px" }}>
+<table className="table">
 
 <thead>
 
 <tr>
 <th>ID</th>
 <th>Subject</th>
-<th>Question ID</th>
-<th>Student Name</th>
-<th>Roll Number</th>
+<th>Question</th>
+<th>Student</th>
+<th>Roll</th>
 <th>Marks</th>
 <th>Similarity</th>
 <th>Feedback</th>
@@ -172,7 +149,8 @@ onChange={e => setPrompt(e.target.value)}
 
 <tbody>
 
-{results.map((r)=>(
+{results.map(r=>(
+
 <tr key={r.id}>
 
 <td>{r.id}</td>
@@ -185,6 +163,7 @@ onChange={e => setPrompt(e.target.value)}
 <td>{r.feedback}</td>
 
 </tr>
+
 ))}
 
 </tbody>
