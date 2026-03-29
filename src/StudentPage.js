@@ -27,7 +27,9 @@ const loadQuestions = async (sub) => {
 
 setSubject(sub);
 
-const res = await axios.get(`https://ai-answer-evaluator-backend.onrender.com/api/questions/${sub}`);
+const res = await axios.get(
+`https://ai-answer-evaluator-backend.onrender.com/api/questions/${sub}`
+);
 
 setQuestions(res.data);
 
@@ -36,16 +38,13 @@ setQuestions(res.data);
 const submitAnswer = async () => {
 
 const res = await axios.post(
-
 `https://ai-answer-evaluator-backend.onrender.com/api/submit/${questionId}`,
-
 {
 studentUsername: username,
 rollNumber: rollNumber,
 studentAnswer: studentAnswer,
 subject: subject
 }
-
 );
 
 setResult(res.data);
@@ -72,7 +71,7 @@ Logout
 
 <select onChange={e=>loadQuestions(e.target.value)}>
 
-<option>Select Subject</option>
+<option value="">Select Subject</option>
 <option>Artificial Intelligence</option>
 <option>Machine Learning</option>
 <option>Data Science</option>
@@ -83,23 +82,19 @@ Logout
 
 </div>
 
-{questions.length>0 &&(
+{/* Question dropdown always visible */}
 
 <select onChange={e=>setQuestionId(e.target.value)}>
 
-<option>Select Question</option>
+<option value="">Select Question</option>
 
 {questions.map(q=>(
-
 <option key={q.id} value={q.id}>
 {q.questionText}
 </option>
-
 ))}
 
 </select>
-
-)}
 
 <textarea
 rows="6"

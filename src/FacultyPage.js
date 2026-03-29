@@ -74,7 +74,7 @@ Logout
 
 <div className="section">
 
-<h3 className="small-btn">Add Question</h3>
+<h3>Add Question</h3>
 
 <select onChange={e=>setSubject(e.target.value)}>
 
@@ -103,7 +103,7 @@ value={maxScore}
 onChange={e=>setMaxScore(e.target.value)}
 />
 
-<button onClick={addQuestion}>
+<button className="small-btn" onClick={addQuestion}>
 Save Question
 </button>
 
@@ -112,6 +112,7 @@ Save Question
 <div className="section">
 
 <h3>Search Results</h3>
+
 <div className="search-container">
 
 <input
@@ -126,6 +127,7 @@ Search
 <button className="small-btn" onClick={viewAllResults}>
 View All Results
 </button>
+
 </div>
 
 </div>

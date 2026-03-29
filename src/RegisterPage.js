@@ -5,12 +5,7 @@ import "./styles.css";
 
 export default function RegisterPage(){
 
-const [user,setUser]=useState({
-username:"",
-password:"",
-role:"",
-rollNumber:""
-});
+const [showPassword,setShowPassword] = useState(false);
 
 const navigate=useNavigate();
 
@@ -45,11 +40,22 @@ placeholder="Username"
 onChange={e=>setUser({...user,username:e.target.value})}
 />
 
+<div className="password-container">
+
 <input
-type="password"
+type={showPassword ? "text" : "password"}
 placeholder="Password"
 onChange={e=>setUser({...user,password:e.target.value})}
 />
+
+<span
+className="eye-icon"
+onClick={()=>setShowPassword(!showPassword)}
+>
+👁
+</span>
+
+</div>
 
 <select
 onChange={e=>setUser({...user,role:e.target.value})}
